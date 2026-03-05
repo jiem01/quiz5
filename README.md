@@ -26,7 +26,6 @@ http://127.0.0.1:8000/api/v1/auth/signup/
 SIGNIN:
 
 POST
-
 http://127.0.0.1:8000/api/v1/auth/signin/
 {
   "username": "user1",
