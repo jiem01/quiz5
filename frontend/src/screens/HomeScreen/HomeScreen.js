@@ -53,8 +53,8 @@ const HomeScreen = () => {
   }, [messages]);
 
   const handleConversationClick = (conversation) => {
-    setActiveId(conversation.id);
-    dispatch(getConversationDetail(conversation.id));
+    setActiveId(conversation._id);
+    dispatch(getConversationDetail(conversation._id));
   };
 
   const handleNewConversation = () => {
@@ -111,10 +111,10 @@ const HomeScreen = () => {
           ) : (
             conversations.map((conv) => (
               <ConversationItem
-                key={conv.id}
+                key={conv._id}
                 title={conv.title}
                 date={conv.updated_at}
-                active={activeId === conv.id}
+                active={activeId === conv._id}
                 onClick={() => handleConversationClick(conv)}
               />
             ))
@@ -123,7 +123,7 @@ const HomeScreen = () => {
         <div className="sidebar-footer">
           <div className="user-info">
             <span className="user-avatar">
-              {userInfo?.user?.username?.charAt(0).toUpperCase()}
+              {userInfo?.user?.username?.charAt(0)?.toUpperCase()}
             </span>
             <span className="user-name">{userInfo?.user?.username}</span>
           </div>

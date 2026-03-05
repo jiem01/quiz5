@@ -10,20 +10,11 @@ import {
   CONVERSATION_CLEAR_ACTIVE,
 } from '../constants/conversationConstants';
 
-const getUserId = () => {
-  const userInfo = localStorage.getItem('userInfo');
-  if (userInfo) {
-    return JSON.parse(userInfo).user.id;
-  }
-  return null;
-};
-
 export const listConversations = () => async (dispatch) => {
   try {
     dispatch({ type: CONVERSATION_LIST_REQUEST });
 
-    const userId = getUserId();
-    const data = await api.conversations.list(userId);
+    const data = await api.conversations.list();
 
     dispatch({ type: CONVERSATION_LIST_SUCCESS, payload: data });
   } catch (error) {
@@ -41,8 +32,7 @@ export const getConversationDetail = (id) => async (dispatch) => {
   try {
     dispatch({ type: CONVERSATION_DETAIL_REQUEST });
 
-    const userId = getUserId();
-    const data = await api.conversations.getDetail(id, userId);
+    const data = await api.conversations.getDetail(id);
 
     dispatch({ type: CONVERSATION_DETAIL_SUCCESS, payload: data });
   } catch (error) {

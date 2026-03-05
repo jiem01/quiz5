@@ -8,35 +8,39 @@ import {
 } from '../constants/chatConstants';
 import { listConversations } from './conversationActions';
 
-const getUserId = () => {
-  const userInfo = localStorage.getItem('userInfo');
-  if (userInfo) {
-    return JSON.parse(userInfo).user.id;
-  }
-  return null;
-};
-
 export const sendMessage = (conversationId, prompt) => async (dispatch) => {
   try {
     dispatch({ type: CHAT_SEND_REQUEST });
 
-    const userId = getUserId();
     let activeConversationId = conversationId;
+    let userMessage;
 
     if (!activeConversationId) {
       const title = prompt.length > 50 ? prompt.substring(0, 50) : prompt;
-      const conversation = await api.conversations.create(userId, title);
-      activeConversationId = conversation.id;
+      const conversation = await api.conversations.create(title, prompt);
+      activeConversationId = conversation._id;
+      userMessage = conversation.messages[0];
+    } else {
+      userMessage = await api.chat.sendMessage(
+        activeConversationId,
+        'user',
+        prompt
+      );
     }
 
     const aiResponse = generateResponse(prompt);
 
-    const data = await api.chat.send(
+    const aiMessage = await api.chat.sendMessage(
       activeConversationId,
-      userId,
-      prompt,
+      'assistant',
       aiResponse
     );
+
+    const data = {
+      conversation_id: activeConversationId,
+      user_message: userMessage,
+      ai_message: aiMessage,
+    };
 
     dispatch({ type: CHAT_SEND_SUCCESS, payload: data });
     dispatch(listConversations());

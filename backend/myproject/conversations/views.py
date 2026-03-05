@@ -29,6 +29,29 @@ def chat_view(request):
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_message_view(request, id):
+    try:
+        conversation = Conversation.objects.get(_id=id, user=request.user)
+    except Conversation.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    role = request.data.get('role', 'user')
+    content = request.data.get('content')
+
+    message = Message.objects.create(
+        conversation=conversation,
+        role=role,
+        content=content
+    )
+
+    conversation.save()
+
+    serializer = MessageSerializer(message)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def conversation_list_view(request):

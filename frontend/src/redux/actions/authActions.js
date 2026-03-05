@@ -29,11 +29,13 @@ export const login = (username, password) => async (dispatch) => {
   }
 };
 
-export const register = (username, email, password) => async (dispatch) => {
+export const register = (username, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_REGISTER_REQUEST });
 
-    const data = await api.auth.register(username, email, password);
+    await api.auth.register(username, password);
+
+    const data = await api.auth.login(username, password);
 
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });

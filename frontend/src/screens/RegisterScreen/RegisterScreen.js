@@ -30,7 +30,7 @@ const RegisterScreen = () => {
       return;
     }
     setLocalError('');
-    dispatch(register(username, email, password));
+    dispatch(register(username, password));
   };
 
   return (
