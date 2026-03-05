@@ -1,4 +1,4 @@
-how to test
+how to test backend:
 
 clone the repo: https://github.com/jiem01/quiz5
 
@@ -9,10 +9,13 @@ python -m venv venv
 pip install -r requirements.txt
 
 cd myproject
+
 python manage.py runserver
 
 test the endpoints in postman:
+
 SIGNUP:
+
 POST
 http://127.0.0.1:8000/api/v1/auth/signup/
 {
@@ -21,7 +24,9 @@ http://127.0.0.1:8000/api/v1/auth/signup/
 }
 
 SIGNIN:
+
 POST
+
 http://127.0.0.1:8000/api/v1/auth/signin/
 {
   "username": "user1",
@@ -29,6 +34,7 @@ http://127.0.0.1:8000/api/v1/auth/signin/
 }
 
 CONVERSATION:
+
 POST
 http://127.0.0.1:8000/api/v1/conversation/
 {
