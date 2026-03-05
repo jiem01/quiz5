@@ -3,7 +3,9 @@ how to test
 clone the repo: https://github.com/jiem01/quiz5
 
 cd backend
+
 python -m venv venv
+
 pip install -r requirements.txt
 
 cd myproject
